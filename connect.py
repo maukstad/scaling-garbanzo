@@ -35,7 +35,7 @@ expr = conn.krpc.Expression.greater_than(
         conn.krpc.Expression.call(mean_altitude),
         conn.krpc.Expression.constant_double(10000))
 event = conn.krpc.add_event(expr)
-with event.condtion:
+with event.condition:
     event.wait()
 
 print('Gravit turn')
@@ -46,7 +46,7 @@ expr = conn.krpc.Expression.greater_than(
         conn.krpc.Expression.call(apoapsis_altitude),
         conn.krpc.Expression.constant_double(100000))
 event = conn.krpc.add_event(expr)
-with event.condiditon:
+with event.condition:
     event.wait()
 
 print('Launch stage separation')
@@ -59,15 +59,15 @@ vessel.auto_pilot.disengage()
 srf_altitude = conn.get_call(getattr, vessel.flight(), 'surface_altitude')
 expr = conn.krpc.Expression.less_than(
         conn.krpc.Expression.call(srf_altitude),
-        conn.krpc.Expression.constant_double(1000))
+        conn.krpc.Expression.constant_double(3000))
 event = conn.krpc.add_event(expr)
-with event.condidtion:
+with event.condition:
     event.wait()
 
 vessel.control.activate_next_stage()
 
-while vessel.flight(vessel.orbit.body.referance_frame).vertical_speed < -0.1:
-    print('Altitude = %.1f meters' % vessel.flight().serface_altitude)
+while vessel.flight(vessel.orbit.body.reference_frame).vertical_speed < -0.1:
+    print('Altitude = %.1f meters' % vessel.flight().surface_altitude)
     time.sleep(1)
 print('Landed!')
 
